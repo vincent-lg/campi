@@ -129,4 +129,6 @@ dmypy.json
 .pyre/
 
 # Setting files.
+settings
 src/settings
+src/campi/settings

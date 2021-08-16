@@ -41,7 +41,7 @@ import dateutil.parser
 from defusedxml.ElementTree import fromstring, ParseError
 import yaml
 
-from story import Story
+from campi.story import Story
 
 class Feed:
 

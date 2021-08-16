@@ -34,7 +34,7 @@ from typing import List
 
 import yaml
 
-from feed import Feed
+from campi.feed import Feed
 
 class Settings:
 

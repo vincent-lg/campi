@@ -26,3 +26,6 @@ defusedxml = "^0.7.1"
 dateutils = "^0.6.12"
 
 [tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+ui = 'campi.main:start'

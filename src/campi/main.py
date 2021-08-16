@@ -32,8 +32,8 @@
 import aiohttp
 from bui import Window, start
 
-from feed import Feed
-from settings import Settings
+from campi.feed import Feed
+from campi.settings import Settings
 
 class MainWindow(Window):
 
