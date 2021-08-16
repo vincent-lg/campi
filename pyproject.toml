@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "campi"
+version = "0.1.0"
+description = "An accessible RSS reader"
+
+license = "BSD3"
+
+authors = [
+    "Vincent Le Goff <vincent.legoff.srs@gmail.com>"
+]
+
+readme = 'README.md'  # Markdown files are supported
+
+repository = "https://github.com/vincent-lg/campi"
+homepage = "https://github.com/vincent-lg/campi"
+
+keywords = ['RSS', 'accessibility']
+
+[tool.poetry.dependencies]
+python = "~3.8"  # Compatible python versions must be declared here
+aiohttp = "^3.7.4"
+aiofiles = "^0.7.0"
+bui = "^0.2.11"
+PyYAML = "^5.4.1"
+defusedxml = "^0.7.1"
+dateutils = "^0.6.12"
+
+[tool.poetry.dev-dependencies]
