@@ -42,6 +42,8 @@ class Settings:
 
     def __init__(self, feeds: List[Feed]):
         self.feeds = feeds
+        self.directory = None
+        self.options = {}
 
         # Hashes
         self.feed_hashes = {}
@@ -54,6 +56,24 @@ class Settings:
         if not directory.exists():
             directory.mkdir()
 
+        # Load the options, or try to.
+        option_file = directory / "options.yml"
+        if not option_file.exists():
+            option_file.touch()
+
+        with option_file.open("r", encoding="utf-8") as file:
+            content = file.read()
+
+        # The options are supposed to be YAML.
+        options = yaml.safe_load(content) or {}
+
+        # Update the settings directory if needed.
+        directory = Path(options.get("directory", "settings"))
+
+        if not directory.exists():
+            directory.mkdir()
+
+        # Read the feeds.
         feed_file = directory / "feeds.yml"
         if not feed_file.exists():
             feed_file.touch()
@@ -73,6 +93,8 @@ class Settings:
                 feeds.append(Feed(settings, title, description, link, hash))
 
         settings.feeds = feeds
+        settings.directory = directory
+        settings.options = options
         return settings
 
     def save(self):
@@ -81,6 +103,17 @@ class Settings:
         if not directory.exists():
             directory.mkdir()
 
+        # Save the options.
+        options = {
+                "directory", str(self.directory),
+        }
+
+        option_file = settings / "options.yml"
+        with option_file.open("w", encoding="utf-8") as file:
+            file.write(yaml.dump(options, sort_keys=False, allow_unicode=True))
+
+        # Write the feeds.
+        directory = self.directory
         feed_file = directory / "feeds.yml"
         feeds = [{
                 "title": feed.title,

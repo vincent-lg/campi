@@ -76,7 +76,7 @@ class Feed:
 
     async def load_stories_from_filesystem(self):
         """Load the list of stories from the file system and populate the list of stories."""
-        feed_file = Path("settings") / f"feed_{self.hash}.yml"
+        feed_file = self.settings.directory / f"feed_{self.hash}.yml"
         if not feed_file.exists():
             feed_file.touch()
 
@@ -168,7 +168,7 @@ class Feed:
 
     async def save(self):
         """Save the feed on the file system, along with its stories."""
-        feed_file = Path("settings") / f"feed_{self.hash}.yml"
+        feed_file = self.settings.directory / f"feed_{self.hash}.yml"
         if not feed_file.exists():
             feed_file.touch()
 
