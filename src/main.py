@@ -108,19 +108,19 @@ class MainWindow(Window):
         await story.open_in_browser()
         row.status = story.status_text
 
-    async def on_press_ctrl_equal_in_stories(self, widget):
+    async def on_press_left_in_stories(self, widget):
         """The user presses CTRL + = on the list of stories."""
         row = widget.selected
         story = self.settings.story_hashes[row.hash]
-        await story.increase_note()
+        await story.decrease_note()
         row.status = story.status_text
         self["feeds"].selected.unread = story.feed.unread
 
-    async def on_press_ctrl_minus_in_stories(self, widget):
-        """The user presses CTRL + - on the list of stories."""
+    async def on_press_right_in_stories(self, widget):
+        """The user presses right arrow on the list of stories."""
         row = widget.selected
         story = self.settings.story_hashes[row.hash]
-        await story.decrease_note()
+        await story.increase_note()
         row.status = story.status_text
         self["feeds"].selected.unread = story.feed.unread
 
