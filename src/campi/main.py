@@ -39,11 +39,18 @@ class MainWindow(Window):
 
     """Campi's main window."""
 
-    def on_init_stories(self):
-        self.session = aiohttp.ClientSession()
+    async def download_stories(self):
+        """Download all stories periodically."""
+        for row in self["feeds"].rows:
+            feed = self.settings.feed_hashes[row.hash]
+            await feed.load_stories_from_link(self.session)
+            row.title = f"{feed.title} ({feed.unread})"
+        await self.sleep(600)
+        self.schedule(self.download_stories())
 
     async def on_init_feeds(self, widget):
         """Attempt to load the list of feeds from the user settings and display it."""
+        self.session = aiohttp.ClientSession()
         self.settings = Settings.load_from_filesystem()
 
         # Add rows in the feeds table accordingly.
@@ -51,6 +58,11 @@ class MainWindow(Window):
             self.add_feed(feed)
 
         widget.selected = 0
+        self.schedule(self.download_stories())
+
+    async def on_close(self):
+        """Close the applicaton."""
+        await self.session.close()
 
     async def on_select_feeds(self, widget):
         """The selection has changed in the feeds table."""
@@ -61,7 +73,6 @@ class MainWindow(Window):
         if not feed.loaded:
             await feed.load_stories_from_filesystem()
 
-        await feed.load_stories_from_link(self.session)
         self.update_stories(feed)
         row.title = f"{feed.title} ({feed.unread})"
 
