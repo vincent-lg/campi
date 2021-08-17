@@ -124,6 +124,14 @@ class MainWindow(Window):
         row.title = f"{story.status_text} {story.title}"
         self["feeds"].selected.title = f"{story.feed.title} ({story.feed.unread})"
 
+    def on_press_ctrl_down_in_stories(self, widget):
+        """The user presses CTRL + down arrow in the list of stories."""
+        row = widget.selected
+        story = self.settings.story_hashes[row.hash]
+        if (next_story := story.next_unread) is not None:
+            rows = [row for row in widget.rows if row.hash == next_story.hash]
+            if rows:
+                widget.selected = rows[0]
 
 def run():
     """Start the BUI server."""

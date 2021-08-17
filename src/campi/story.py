@@ -110,6 +110,19 @@ class Story:
 
         return self.note_as_symbol
 
+    @property
+    def next_unread(self):
+        """Return the next unread story in the feed or None."""
+        try:
+            index = self.feed.stories.index(self)
+        except IndexError:
+            return
+
+        # Filter unread stories.
+        stories = (story for story in self.feed.stories[index + 1:]
+                if story.unread)
+        return next(stories, None)
+
     async def open_in_browser(self):
         """Open this story in a browser."""
         os.startfile(self.link)
