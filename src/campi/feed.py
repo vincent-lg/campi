@@ -29,7 +29,7 @@
 
 """Class to retrieve a feed object."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 from uuid import uuid4
@@ -144,11 +144,15 @@ class Feed:
             elif (element := item.find("submitted")) is not None:
                 published = element.text
             else:
-                published = datetime.now()
+                published = datetime.now(timezone.utc).astimezone()
+
 
             # Try to convert the date if necessary.
             if isinstance(published, str):
-                published = dateutil.parser.parse(published)
+                try:
+                    published = dateutil.parser.parse(published)
+                except dateutil.parser.ParserError:
+                    published = datetime.now(timezone.utc).astimezone()
 
             # Parse the category.
             if (element := item.find("category")) is not None:
