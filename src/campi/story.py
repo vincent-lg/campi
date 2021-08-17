@@ -61,7 +61,7 @@ class Story:
         settings.story_hashes[hash] = self
 
     def __repr__(self):
-        return f"<Story {self.name} (published {self.ago}, hash={self.hash})"
+        return f"<Story {self.title} (published {self.ago}, hash={self.hash})"
 
     @property
     def ago(self) -> str:
@@ -109,6 +109,19 @@ class Story:
             return "U"
 
         return self.note_as_symbol
+
+    @property
+    def previous_unread(self):
+        """Return the previous unread story in the feed or None."""
+        try:
+            index = self.feed.stories.index(self)
+        except IndexError:
+            return
+
+        # Filter unread stories.
+        stories = (story for story in reversed(self.feed.stories[:index])
+                if story.unread)
+        return next(stories, None)
 
     @property
     def next_unread(self):
