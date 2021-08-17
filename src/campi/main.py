@@ -63,7 +63,7 @@ class MainWindow(Window):
 
         await feed.load_stories_from_link(self.session)
         self.update_stories(feed)
-        row.unread = feed.unread
+        row.title = f"{feed.title} ({feed.unread})"
 
     async def on_add_feed(self, widget):
         dialog = await self.pop_dialog("""
@@ -89,7 +89,7 @@ class MainWindow(Window):
     def add_feed(self, feed: "Feed", select: bool = False):
         """Add a new feed, select the new row if select is True."""
         table = self["feeds"]
-        table.add_row(feed.title, feed.unread, feed.description, feed.hash)
+        table.add_row(f"{feed.title} ({feed.unread})", feed.description, feed.hash)
         if select:
             table.selected = table.rows[-1]
 
@@ -97,7 +97,7 @@ class MainWindow(Window):
         """Update the stories for the specified feed."""
         table = self["stories"]
         table.rows = [
-                (story.title, story.status_text, story.ago, story.category, story.hash)
+                (f"{story.status_text} {story.title}", story.ago, story.category, story.hash)
                 for story in feed.stories
         ]
 
@@ -106,23 +106,28 @@ class MainWindow(Window):
         row = widget.selected
         story = self.settings.story_hashes[row.hash]
         await story.open_in_browser()
-        row.status = story.status_text
+        row.title = f"{story.status_text} {story.title}"
 
     async def on_press_left_in_stories(self, widget):
         """The user presses CTRL + = on the list of stories."""
         row = widget.selected
         story = self.settings.story_hashes[row.hash]
         await story.decrease_note()
-        row.status = story.status_text
-        self["feeds"].selected.unread = story.feed.unread
+        row.title = f"{story.status_text} {story.title}"
+        self["feeds"].selected.title = f"{story.feed.title} ({story.feed.unread})"
 
     async def on_press_right_in_stories(self, widget):
         """The user presses right arrow on the list of stories."""
         row = widget.selected
         story = self.settings.story_hashes[row.hash]
         await story.increase_note()
-        row.status = story.status_text
-        self["feeds"].selected.unread = story.feed.unread
+        row.title = f"{story.status_text} {story.title}"
+        self["feeds"].selected.title = f"{story.feed.title} ({story.feed.unread})"
 
 
-start(MainWindow)
+def run():
+    """Start the BUI server."""
+    start(MainWindow)
+
+if __name__ == "__main__":
+    run()

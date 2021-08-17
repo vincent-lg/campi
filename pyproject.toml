@@ -28,4 +28,4 @@ dateutils = "^0.6.12"
 [tool.poetry.dev-dependencies]
 
 [tool.poetry.scripts]
-ui = 'campi.main:start'
+ui = 'campi.main:run'

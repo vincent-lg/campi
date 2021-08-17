@@ -98,7 +98,7 @@ class Story:
             return '-' * (allowed * -1)
         elif note > 0:
             allowed = min(note, 3)
-            return '-' * allowed
+            return '+' * allowed
 
         return '0'
 
@@ -106,7 +106,7 @@ class Story:
     def status_text(self) -> str:
         """Return the statys as text."""
         if self.unread:
-            return "unread"
+            return "U"
 
         return self.note_as_symbol
 
@@ -128,6 +128,6 @@ class Story:
     async def increase_note(self):
         """Increase the note."""
         self.unread = False
-        if self.note < 2:
+        if self.note < 3:
             self.note += 1
             await self.feed.save()
