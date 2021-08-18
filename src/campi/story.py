@@ -142,18 +142,15 @@ class Story:
 
         if self.unread:
             self.unread = False
-            await self.feed.save()
 
     async def decrease_note(self):
         """Decrease the note."""
         self.unread = False
         if self.note > -2:
             self.note -= 1
-            await self.feed.save()
 
     async def increase_note(self):
         """Increase the note."""
         self.unread = False
         if self.note < 3:
             self.note += 1
-            await self.feed.save()

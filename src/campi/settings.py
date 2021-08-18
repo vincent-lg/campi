@@ -105,10 +105,10 @@ class Settings:
 
         # Save the options.
         options = {
-                "directory", str(self.directory),
+                "directory": str(self.directory),
         }
 
-        option_file = settings / "options.yml"
+        option_file = directory / "options.yml"
         with option_file.open("w", encoding="utf-8") as file:
             file.write(yaml.dump(options, sort_keys=False, allow_unicode=True))
 

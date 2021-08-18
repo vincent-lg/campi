@@ -29,6 +29,8 @@
 
 """Main window of Campi, using the Blind User Interface.."""
 
+import asyncio
+
 import aiohttp
 from bui import Window, start
 
@@ -39,14 +41,25 @@ class MainWindow(Window):
 
     """Campi's main window."""
 
-    async def download_stories(self):
+    async def download_all(self):
         """Download all stories periodically."""
+        while True:
+            try:
+                await self.download_feeds()
+            except asyncio.CancelledError:
+                break
+            else:
+                await self.sleep(600)
+
+    async def download_feeds(self):
+        """Download all feeds."""
         for row in self["feeds"].rows:
             feed = self.settings.feed_hashes[row.hash]
+            if not feed.loaded:
+                continue
+
             await feed.load_stories_from_link(self.session)
             row.title = f"{feed.title} ({feed.unread})"
-        await self.sleep(600)
-        self.schedule(self.download_stories())
 
     async def on_init_feeds(self, widget):
         """Attempt to load the list of feeds from the user settings and display it."""
@@ -58,11 +71,27 @@ class MainWindow(Window):
             self.add_feed(feed)
 
         widget.selected = 0
-        self.schedule(self.download_stories())
+        self.schedule(self.load_feeds())
+        await self.sleep(5)
+        self.schedule(self.download_all())
 
-    async def on_close(self):
+    async def load_feeds(self):
+        """Load feeds from the file system, if necessary."""
+        try:
+            for row in self["feeds"].rows:
+                feed = self.settings.feed_hashes[row.hash]
+                if feed.loaded:
+                    continue
+
+                await feed.load_stories_from_filesystem()
+                row.title = f"{feed.title} ({feed.unread})"
+        except asyncio.CancelledError:
+            pass
+
+    def on_close(self):
         """Close the applicaton."""
-        await self.session.close()
+        for feed in self.settings.feeds:
+            feed.save()
 
     async def on_select_feeds(self, widget):
         """The selection has changed in the feeds table."""

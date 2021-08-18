@@ -55,6 +55,7 @@ class Feed:
         self.link = link
         self.stories = []
         self.loaded = False
+        self.old_content = ""
 
         if hash is None: # Determine the hash for this feed.
             while (new_hash := str(uuid4())) in settings.feed_hashes:
@@ -83,6 +84,7 @@ class Feed:
         async with aiofiles.open(str(feed_file), "r", encoding="utf-8") as file:
             content = await file.read()
 
+        self.old_content = content
         loaded_stories = yaml.safe_load(content)
         stories = []
 
@@ -115,8 +117,6 @@ class Feed:
                     pass
                 else:
                     await self.update_from_XML(parsed)
-
-        await self.save()
 
     async def update_from_XML(self, parsed):
         """Parse a XML tree and try to update this feed."""
@@ -168,9 +168,7 @@ class Feed:
 
             self.add_story_if_needed(title, published, category, link)
 
-        await self.save()
-
-    async def save(self):
+    def save(self):
         """Save the feed on the file system, along with its stories."""
         feed_file = self.settings.directory / f"feed_{self.hash}.yml"
         if not feed_file.exists():
@@ -186,9 +184,12 @@ class Feed:
                 "hash": story.hash,
                 } for story in self.stories]
 
-        async with aiofiles.open(str(feed_file), "w", encoding="utf-8") as file:
-            await file.write(yaml.dump(stories, sort_keys=False,
-                    allow_unicode=True))
+        content = yaml.dump(stories, sort_keys=False, allow_unicode=True)
+        if content == self.old_content:
+            return
+
+        with feed_file.open("w", encoding="utf-8") as file:
+            file.write(content)
 
     def add_story_if_needed(self, title: str, published: datetime,
             category: str, link: str, unread: bool = True, note: int = 0,
