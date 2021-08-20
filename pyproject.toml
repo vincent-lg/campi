@@ -26,6 +26,7 @@ defusedxml = "^0.7.1"
 dateutils = "^0.6.12"
 
 [tool.poetry.dev-dependencies]
+cx-Freeze = "^6.7"
 
 [tool.poetry.scripts]
 ui = 'campi.main:run'

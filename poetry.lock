@@ -72,6 +72,26 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "cx-freeze"
+version = "6.7"
+description = "Create standalone executables from Python scripts"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+cx-logging = {version = ">=3.0", markers = "sys_platform == \"win32\""}
+importlib-metadata = ">=4.3.1"
+
+[[package]]
+name = "cx-logging"
+version = "3.0"
+description = "Python and C interfaces for logging"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "dateutils"
 version = "0.6.12"
 description = "Various utilities for working with date and datetime objects"
@@ -98,6 +118,22 @@ description = "Internationalized Domain Names in Applications (IDNA)"
 category = "main"
 optional = false
 python-versions = ">=3.5"
+
+[[package]]
+name = "importlib-metadata"
+version = "4.6.4"
+description = "Read metadata from Python packages"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+zipp = ">=0.5"
+
+[package.extras]
+docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
+perf = ["ipython"]
+testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "packaging", "pep517", "pyfakefs", "flufl.flake8", "pytest-perf (>=0.9.2)", "pytest-black (>=0.3.7)", "pytest-mypy", "importlib-resources (>=1.3)"]
 
 [[package]]
 name = "logbook"
@@ -218,10 +254,22 @@ python-versions = ">=3.6"
 idna = ">=2.0"
 multidict = ">=4.0"
 
+[[package]]
+name = "zipp"
+version = "3.5.0"
+description = "Backport of pathlib-compatible object wrapper for zip files"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+docs = ["sphinx", "jaraco.packaging (>=8.2)", "rst.linker (>=1.9)"]
+testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-cov", "pytest-enabler (>=1.0.1)", "jaraco.itertools", "func-timeout", "pytest-black (>=0.3.7)", "pytest-mypy"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.8"  # Compatible python versions must be declared here
-content-hash = "536467250c762c50d102d911a045a01fcc1c06467824b7defc5d54b8bf1dc287"
+content-hash = "8a63eaf2f8dfc038886401dfb67fb62e1135b9e9a3523fb8b4d1719b17839798"
 
 [metadata.files]
 aiofiles = [
@@ -283,6 +331,32 @@ chardet = [
     {file = "chardet-4.0.0-py2.py3-none-any.whl", hash = "sha256:f864054d66fd9118f2e67044ac8981a54775ec5b67aed0441892edb553d21da5"},
     {file = "chardet-4.0.0.tar.gz", hash = "sha256:0d6f53a15db4120f2b08c94f11e7d93d2c911ee118b6b30a04ec3ee8310179fa"},
 ]
+cx-freeze = [
+    {file = "cx_Freeze-6.7-cp36-cp36m-win32.whl", hash = "sha256:befd5a2fb915eae03bfb237ffebeb7a5dfe8f58bc8c93c18f19a47c1fc800d8a"},
+    {file = "cx_Freeze-6.7-cp36-cp36m-win_amd64.whl", hash = "sha256:7718801da4a3ad499b0d648c507759f3b7ffef24ba4e9fd8ff3b129b77dda0e3"},
+    {file = "cx_Freeze-6.7-cp37-cp37m-win32.whl", hash = "sha256:361f27b1575b508a52fe3eb0afe83f2594c44235d084e04815924ea48742f0ea"},
+    {file = "cx_Freeze-6.7-cp37-cp37m-win_amd64.whl", hash = "sha256:65aec3b37b91b0a41ccf61b9794d8660b809d665a529479489ab410a201736fc"},
+    {file = "cx_Freeze-6.7-cp38-cp38-win32.whl", hash = "sha256:ec3bb21bc74c4fea458563f6e47191daa5486f089aebb1d00a922b5aa9834c87"},
+    {file = "cx_Freeze-6.7-cp38-cp38-win_amd64.whl", hash = "sha256:1b76c72f8a2c0e1a416b7bced9d5fd247a0120f6b1b35d4678568beb1ccf9380"},
+    {file = "cx_Freeze-6.7-cp39-cp39-win32.whl", hash = "sha256:beb38b2df37af44d08a1e62f09f0e1c5b991ded751f7cc3ab0ac93fba013ba54"},
+    {file = "cx_Freeze-6.7-cp39-cp39-win_amd64.whl", hash = "sha256:967c86416b8dea3b00c0f1e2c94f5118004c9297afc8b1ae88002aec28a9097c"},
+    {file = "cx_Freeze-6.7.tar.gz", hash = "sha256:050f1dd133a04810bd7f38ac7ae3b290054acb2ff4f6e73f7a286266d153495d"},
+]
+cx-logging = [
+    {file = "cx_Logging-3.0-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:9fcd297e5c51470521c47eff0f86ba844aeca6be97e13c3e2114ebdf03fa3c96"},
+    {file = "cx_Logging-3.0-cp36-cp36m-win32.whl", hash = "sha256:0df4be47c5022cc54316949e283403214568ef599817ced0c0972183d6d4fabb"},
+    {file = "cx_Logging-3.0-cp36-cp36m-win_amd64.whl", hash = "sha256:203ca92ee7c15d5dfe1fcdfcef7b39d0123eba5c6d8c2388b6e7db6b961a5362"},
+    {file = "cx_Logging-3.0-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:20daa71b2a30f61d09bcf55dbda002c10f0c7c691f53cb393fc6485410fa2484"},
+    {file = "cx_Logging-3.0-cp37-cp37m-win32.whl", hash = "sha256:5be5f905e8d34a3326e28d428674cdc2d57912fdf6e25b8676d63f76294eb4e0"},
+    {file = "cx_Logging-3.0-cp37-cp37m-win_amd64.whl", hash = "sha256:04e4b61e2636dc8ae135937655af6626362aefc7f6175e86888a244b61001823"},
+    {file = "cx_Logging-3.0-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:1bf0ebc79a7baa331c7deaf57088c234b82710286dfad453ff0c55eee0122b72"},
+    {file = "cx_Logging-3.0-cp38-cp38-win32.whl", hash = "sha256:d98a59a47e99fa430b3f6d2a979e27509852d2c43e204f43bd0168e7ec97f469"},
+    {file = "cx_Logging-3.0-cp38-cp38-win_amd64.whl", hash = "sha256:bb2e91019e5905415f795eef994de60ace5ae186fc4fe3d358e2d8feebb24992"},
+    {file = "cx_Logging-3.0-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:b6f4a9b750e02a180517f779d174a1c7db651981cd37e5623235b87da9774dfd"},
+    {file = "cx_Logging-3.0-cp39-cp39-win32.whl", hash = "sha256:e7cca28e8ee4082654b6062cc4d06f83d48f1a7e2d152bab020c9e3e373afb90"},
+    {file = "cx_Logging-3.0-cp39-cp39-win_amd64.whl", hash = "sha256:302e9c4f65a936c288a4fa59a90e7e142d9ef994aa29676731acafdcccdbb3f5"},
+    {file = "cx_Logging-3.0.tar.gz", hash = "sha256:ba8a7465facf7b98d8f494030fb481a2e8aeee29dc191e10383bb54ed42bdb34"},
+]
 dateutils = [
     {file = "dateutils-0.6.12-py2.py3-none-any.whl", hash = "sha256:f33b6ab430fa4166e7e9cb8b21ee9f6c9843c48df1a964466f52c79b2a8d53b3"},
     {file = "dateutils-0.6.12.tar.gz", hash = "sha256:03dd90bcb21541bd4eb4b013637e4f1b5f944881c46cc6e4b67a6059e370e3f1"},
@@ -294,6 +368,10 @@ defusedxml = [
 idna = [
     {file = "idna-3.2-py3-none-any.whl", hash = "sha256:14475042e284991034cb48e06f6851428fb14c4dc953acd9be9a5e95c7b6dd7a"},
     {file = "idna-3.2.tar.gz", hash = "sha256:467fbad99067910785144ce333826c71fb0e63a425657295239737f7ecd125f3"},
+]
+importlib-metadata = [
+    {file = "importlib_metadata-4.6.4-py3-none-any.whl", hash = "sha256:ed5157fef23a4bc4594615a0dd8eba94b2bb36bf2a343fa3d8bb2fa0a62a99d5"},
+    {file = "importlib_metadata-4.6.4.tar.gz", hash = "sha256:7b30a78db2922d78a6f47fb30683156a14f3c6aa5cc23f77cc8967e9ab2d002f"},
 ]
 logbook = [
     {file = "Logbook-1.5.2-cp27-cp27m-win32.whl", hash = "sha256:0b523cc67171b273ceb7ea2a530b103793b36941abc70e4f285ea1583d165638"},
@@ -523,4 +601,8 @@ yarl = [
     {file = "yarl-1.6.3-cp39-cp39-win32.whl", hash = "sha256:5b883e458058f8d6099e4420f0cc2567989032b5f34b271c0827de9f1079a424"},
     {file = "yarl-1.6.3-cp39-cp39-win_amd64.whl", hash = "sha256:4953fb0b4fdb7e08b2f3b3be80a00d28c5c8a2056bb066169de00e6501b986b6"},
     {file = "yarl-1.6.3.tar.gz", hash = "sha256:8a9066529240171b68893d60dca86a763eae2139dd42f42106b03cf4b426bf10"},
+]
+zipp = [
+    {file = "zipp-3.5.0-py3-none-any.whl", hash = "sha256:957cfda87797e389580cb8b9e3870841ca991e2125350677b2ca83a0e99390a3"},
+    {file = "zipp-3.5.0.tar.gz", hash = "sha256:f5812b1e007e48cff63449a5e9f4e7ebea716b4111f9c4f9a645f91d579bf0c4"},
 ]
